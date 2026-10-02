@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-02T15:46:31.938142+00:00",
+  "generated_at": "2026-10-02T16:41:49.496470+00:00",
   "rule_version": "rules-v1",
   "annotation_status": "AI起草标签，尚未经过独立人工复核；仅供工程验证",
   "train": {
@@ -316,7 +316,7 @@
       }
     ],
     "risk_matches": 14,
-    "dataset_sha256": "c5c2ea2c19c6956b5e42006e967fbd54b4923b6d6ecd16315e87e6c1aa7b6244"
+    "dataset_sha256": "59e238eccee9ec628dd63d56fba691c22fbffa52a1c20787f9dec563243bae91"
   },
   "test": {
     "split": "test",
@@ -542,7 +542,7 @@
       }
     ],
     "risk_matches": 4,
-    "dataset_sha256": "c5c2ea2c19c6956b5e42006e967fbd54b4923b6d6ecd16315e87e6c1aa7b6244"
+    "dataset_sha256": "59e238eccee9ec628dd63d56fba691c22fbffa52a1c20787f9dec563243bae91"
   },
   "llm": "未进行人工语义评测，不报告准确率"
 }

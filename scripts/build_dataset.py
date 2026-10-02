@@ -298,7 +298,9 @@ def main():
     folder = ROOT / "dataset"
     folder.mkdir(exist_ok=True)
     (folder / "requirements.json").write_text(
-        json.dumps(rows, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+        json.dumps(rows, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+        newline="\n",
     )
 
 

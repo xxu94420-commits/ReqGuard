@@ -57,6 +57,8 @@ Java 管理需求与追加式历史；Python 负责评估与 Schema 校验；前
 需要 Docker Engine/Desktop 和 Compose v2。复制 `.env.example` 为 `.env`（默认无密钥）。
 
 ```bash
+git clone https://github.com/xxu94420-commits/ReqGuard.git
+cd ReqGuard
 docker compose up --build -d --wait
 ```
 
@@ -133,6 +135,8 @@ pnpm build
 ![需求工作台](docs/screenshots/workspace.png)
 
 其他截图位于 [docs/screenshots](docs/screenshots/README.md)；验证记录见 [docs/verification.md](docs/verification.md)。GitHub Actions 分别验证 Python、Java、前端及 Docker/PostgreSQL 真实链路。
+
+本地回归：Python 7项、Java 5项、前端2项测试通过，格式检查与生产构建通过；首次CI四条流水线全部通过，包括实际容器构建、健康检查、PostgreSQL迁移和端到端smoke。
 
 ## 项目结构
 

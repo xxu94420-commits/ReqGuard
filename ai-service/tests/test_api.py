@@ -88,3 +88,18 @@ def test_valid_llm_and_duplicate_merge(monkeypatch):
     assert len(semantic) == 1
     assert semantic[0]["confidence"] == 0.8
     assert semantic[0]["needs_confirmation"] is True
+
+
+def test_provider_timeout_returns_original_rule_snapshot(monkeypatch):
+    monkeypatch.setenv("LLM_API_KEY", "fake-test-key")
+
+    async def timeout(self, *args, **kwargs):
+        raise httpx.ReadTimeout("provider text must never be stored")
+
+    monkeypatch.setattr(httpx.AsyncClient, "post", timeout)
+    enhanced = client.post("/evaluate", json={"text": "优化", "mode": "llm-enhanced"}).json()
+    baseline = client.post("/evaluate", json={"text": "优化"}).json()
+    assert enhanced["mode"] == "rule-only"
+    assert enhanced["quality_score"] == baseline["quality_score"]
+    assert enhanced["findings"] == baseline["findings"]
+    assert "provider text" not in str(enhanced)

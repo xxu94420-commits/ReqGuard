@@ -27,6 +27,37 @@ class LifecycleTest {
   }
 
   @Test
+  void concurrentRevisionsAppendOnlyOnce() throws Exception {
+    var r = create();
+    var start = new java.util.concurrent.CountDownLatch(1);
+    var pool = java.util.concurrent.Executors.newFixedThreadPool(2);
+    try {
+      java.util.concurrent.Callable<Integer> change =
+          () -> {
+            start.await();
+            try {
+              service.revise(r.id, new Requests.Revise("并发修改", "人工澄清", 1));
+              return 200;
+            } catch (ResponseStatusException ex) {
+              return ex.getStatusCode().value();
+            }
+          };
+      var first = pool.submit(change);
+      var second = pool.submit(change);
+      start.countDown();
+      assertEquals(
+          Set.of(200, 409),
+          Set.of(
+              first.get(10, java.util.concurrent.TimeUnit.SECONDS),
+              second.get(10, java.util.concurrent.TimeUnit.SECONDS)));
+      assertEquals(2, ((List<?>) service.detail(r.id).get("versions")).size());
+      assertEquals("用户导出订单", service.require(r.id).originalText);
+    } finally {
+      pool.shutdownNow();
+    }
+  }
+
+  @Test
   void originalAndVersionConflict() {
     var r = create();
     service.revise(r.id, new Requests.Revise("改写后的需求", "明确边界", 1));

@@ -87,7 +87,9 @@ if __name__ == "__main__":
         "llm": "未进行人工语义评测，不报告准确率",
     }
     (ROOT / "dataset" / "results.json").write_text(
-        json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+        json.dumps(report, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+        newline="\n",
     )
     print(
         json.dumps(

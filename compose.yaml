@@ -1,0 +1,57 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: reqguard
+      POSTGRES_USER: reqguard
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-reqguard-local-only}
+    volumes:
+      - reqguard-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U reqguard -d reqguard"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  ai:
+    build:
+      context: .
+      dockerfile: ai-service/Dockerfile
+    environment:
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      LLM_BASE_URL: ${LLM_BASE_URL:-https://api.openai.com/v1}
+      LLM_MODEL: ${LLM_MODEL:-gpt-4o-mini}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      DATABASE_URL: jdbc:postgresql://db:5432/reqguard
+      DATABASE_USER: reqguard
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD:-reqguard-local-only}
+      AI_SERVICE_URL: http://ai:8000
+    depends_on:
+      db:
+        condition: service_healthy
+      ai:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/localhost/8080; printf 'GET /api/health HTTP/1.0\r\n\r\n' >&3; grep -q '200' <&3"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+  web:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "127.0.0.1:3000:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+volumes:
+  reqguard-data:

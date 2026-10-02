@@ -1,0 +1,548 @@
+{
+  "generated_at": "2026-10-02T15:46:31.938142+00:00",
+  "rule_version": "rules-v1",
+  "annotation_status": "AI起草标签，尚未经过独立人工复核；仅供工程验证",
+  "train": {
+    "split": "train",
+    "sample_count": 24,
+    "micro": {
+      "tp": 36,
+      "fp": 34,
+      "fn": 8,
+      "precision": 0.5143,
+      "recall": 0.8182,
+      "f1": 0.6316
+    },
+    "per_label": {
+      "missing_user_scenario": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_acceptance_criteria": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 4,
+        "precision": 1.0,
+        "recall": 0.3333,
+        "f1": 0.5
+      },
+      "unmeasurable_goal": {
+        "tp": 5,
+        "fp": 13,
+        "fn": 0,
+        "precision": 0.2778,
+        "recall": 1.0,
+        "f1": 0.4348
+      },
+      "missing_edge_cases": {
+        "tp": 6,
+        "fp": 8,
+        "fn": 0,
+        "precision": 0.4286,
+        "recall": 1.0,
+        "f1": 0.6
+      },
+      "unclear_data_dependency": {
+        "tp": 3,
+        "fp": 0,
+        "fn": 3,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6667
+      },
+      "unclear_interface_dependency": {
+        "tp": 6,
+        "fp": 10,
+        "fn": 0,
+        "precision": 0.375,
+        "recall": 1.0,
+        "f1": 0.5455
+      },
+      "mixed_goals": {
+        "tp": 2,
+        "fp": 2,
+        "fn": 0,
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6667
+      },
+      "unclear_scope": {
+        "tp": 4,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_error_handling": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "internal_conflict": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6667
+      },
+      "ambiguous_language": {
+        "tp": 3,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.75,
+        "recall": 1.0,
+        "f1": 0.8571
+      }
+    },
+    "errors": [
+      {
+        "id": "REQ-004",
+        "label": "missing_edge_cases",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-005",
+        "label": "unclear_interface_dependency",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-007",
+        "label": "unmeasurable_goal",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-007",
+        "label": "missing_edge_cases",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-010",
+        "label": "unclear_interface_dependency",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-011",
+        "label": "missing_edge_cases",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-011",
+        "label": "unclear_interface_dependency",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-014",
+        "label": "unmeasurable_goal",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-014",
+        "label": "unclear_interface_dependency",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-016",
+        "label": "unmeasurable_goal",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-016",
+        "label": "unclear_data_dependency",
+        "type": "false_negative"
+      },
+      {
+        "id": "REQ-017",
+        "label": "unmeasurable_goal",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-017",
+        "label": "missing_edge_cases",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-017",
+        "label": "unclear_interface_dependency",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-019",
+        "label": "unmeasurable_goal",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-020",
+        "label": "unmeasurable_goal",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-022",
+        "label": "missing_acceptance_criteria",
+        "type": "false_negative"
+      },
+      {
+        "id": "REQ-022",
+        "label": "unmeasurable_goal",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-022",
+        "label": "unclear_data_dependency",
+        "type": "false_negative"
+      },
+      {
+        "id": "REQ-023",
+        "label": "missing_acceptance_criteria",
+        "type": "false_negative"
+      },
+      {
+        "id": "REQ-023",
+        "label": "unclear_data_dependency",
+        "type": "false_negative"
+      },
+      {
+        "id": "REQ-025",
+        "label": "missing_acceptance_criteria",
+        "type": "false_negative"
+      },
+      {
+        "id": "REQ-025",
+        "label": "unmeasurable_goal",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-025",
+        "label": "mixed_goals",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-025",
+        "label": "ambiguous_language",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-026",
+        "label": "missing_acceptance_criteria",
+        "type": "false_negative"
+      },
+      {
+        "id": "REQ-026",
+        "label": "unmeasurable_goal",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-026",
+        "label": "mixed_goals",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-028",
+        "label": "unclear_interface_dependency",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-029",
+        "label": "missing_edge_cases",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-029",
+        "label": "unclear_interface_dependency",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-031",
+        "label": "unmeasurable_goal",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-031",
+        "label": "unclear_interface_dependency",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-032",
+        "label": "unmeasurable_goal",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-032",
+        "label": "missing_edge_cases",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-032",
+        "label": "unclear_interface_dependency",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-034",
+        "label": "unmeasurable_goal",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-034",
+        "label": "missing_edge_cases",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-035",
+        "label": "unmeasurable_goal",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-035",
+        "label": "missing_edge_cases",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-035",
+        "label": "unclear_interface_dependency",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-035",
+        "label": "internal_conflict",
+        "type": "false_negative"
+      }
+    ],
+    "risk_matches": 14,
+    "dataset_sha256": "c5c2ea2c19c6956b5e42006e967fbd54b4923b6d6ecd16315e87e6c1aa7b6244"
+  },
+  "test": {
+    "split": "test",
+    "sample_count": 12,
+    "micro": {
+      "tp": 18,
+      "fp": 22,
+      "fn": 2,
+      "precision": 0.45,
+      "recall": 0.9,
+      "f1": 0.6
+    },
+    "per_label": {
+      "missing_user_scenario": {
+        "tp": 1,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6667
+      },
+      "missing_acceptance_criteria": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6667
+      },
+      "unmeasurable_goal": {
+        "tp": 2,
+        "fp": 8,
+        "fn": 0,
+        "precision": 0.2,
+        "recall": 1.0,
+        "f1": 0.3333
+      },
+      "missing_edge_cases": {
+        "tp": 3,
+        "fp": 7,
+        "fn": 0,
+        "precision": 0.3,
+        "recall": 1.0,
+        "f1": 0.4615
+      },
+      "unclear_data_dependency": {
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "unclear_interface_dependency": {
+        "tp": 3,
+        "fp": 5,
+        "fn": 0,
+        "precision": 0.375,
+        "recall": 1.0,
+        "f1": 0.5455
+      },
+      "mixed_goals": {
+        "tp": 1,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6667
+      },
+      "unclear_scope": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_error_handling": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "internal_conflict": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "precision": 0,
+        "recall": 0.0,
+        "f1": 0
+      },
+      "ambiguous_language": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      }
+    },
+    "errors": [
+      {
+        "id": "REQ-006",
+        "label": "unmeasurable_goal",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-006",
+        "label": "missing_edge_cases",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-006",
+        "label": "unclear_interface_dependency",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-009",
+        "label": "unmeasurable_goal",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-009",
+        "label": "missing_edge_cases",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-009",
+        "label": "unclear_interface_dependency",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-012",
+        "label": "missing_edge_cases",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-015",
+        "label": "missing_user_scenario",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-015",
+        "label": "unmeasurable_goal",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-018",
+        "label": "unmeasurable_goal",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-018",
+        "label": "missing_edge_cases",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-021",
+        "label": "unmeasurable_goal",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-024",
+        "label": "missing_acceptance_criteria",
+        "type": "false_negative"
+      },
+      {
+        "id": "REQ-024",
+        "label": "unmeasurable_goal",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-027",
+        "label": "unmeasurable_goal",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-027",
+        "label": "mixed_goals",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-030",
+        "label": "missing_edge_cases",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-030",
+        "label": "unclear_interface_dependency",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-033",
+        "label": "unmeasurable_goal",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-033",
+        "label": "missing_edge_cases",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-033",
+        "label": "unclear_interface_dependency",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-036",
+        "label": "missing_edge_cases",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-036",
+        "label": "unclear_interface_dependency",
+        "type": "false_positive"
+      },
+      {
+        "id": "REQ-036",
+        "label": "internal_conflict",
+        "type": "false_negative"
+      }
+    ],
+    "risk_matches": 4,
+    "dataset_sha256": "c5c2ea2c19c6956b5e42006e967fbd54b4923b6d6ecd16315e87e6c1aa7b6244"
+  },
+  "llm": "未进行人工语义评测，不报告准确率"
+}

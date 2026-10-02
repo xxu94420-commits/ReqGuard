@@ -1,0 +1,16 @@
+.venv/
+.tools/
+node_modules/
+dist/
+target/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.env
+*.log
+*.db
+*.db-*
+artifacts/local/
+.pnpm-store/
+data/
+*.tsbuildinfo

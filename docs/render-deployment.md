@@ -1,6 +1,6 @@
 # 公网部署：Render 在线演示
 
-ReqGuard已部署公网在线工作台：[https://reqguard-demo.onrender.com/](https://reqguard-demo.onrender.com/)。面试官可通过浏览器直接体验，账号为`reqguard`，密码由项目作者随面试材料单独提供。已实现网页登录、真实AI接入及内部服务隔离；下文说明部署方式与维护限制。
+ReqGuard已部署公网在线工作台：[https://reqguard-demo.onrender.com/](https://reqguard-demo.onrender.com/)。使用者可通过浏览器直接体验，账号为`reqguard`，密码由项目作者向使用者单独提供。已实现网页登录、真实AI接入及内部服务隔离；下文说明部署方式与维护限制。
 
 此配置用于个人作品演示：一个免费Web Service包含Nginx入口、Java业务服务、Python AI服务与H2演示数据库。不是生产部署，也不提供永久数据保存。
 

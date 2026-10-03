@@ -17,7 +17,9 @@ with httpx.Client(base_url=base, timeout=10) as client:
         time.sleep(2)
     else:
         raise RuntimeError("Demo did not become healthy")
-    assert client.get("/").status_code == 302
+    redirect = client.get("/")
+    assert redirect.status_code == 302
+    assert redirect.headers["location"] == "/login"
     login_page = client.get("/login")
     assert login_page.status_code == 200
     assert "www-authenticate" not in login_page.headers

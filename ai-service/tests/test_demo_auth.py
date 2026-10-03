@@ -79,3 +79,16 @@ def test_basic_auth_and_malformed_input(gateway):
     assert gateway.get("/_auth", auth=("demo", "test-only-strong-password")).status_code == 204
     assert gateway.get("/_auth", headers={"Authorization": "Basic !!!"}).status_code == 401
     assert gateway.post("/login", content=b"x" * 4097).status_code == 400
+
+
+def test_ajax_login_returns_cookie_without_redirect(gateway):
+    response = gateway.post(
+        "/login",
+        data={"username": "demo", "password": "test-only-strong-password"},
+        headers={"Accept": "application/json", "Origin": "https://demo.example"},
+    )
+    assert response.status_code == 200
+    assert response.json() == {"status": "authenticated"}
+    assert "location" not in response.headers
+    cookie = response.headers["set-cookie"].split(";", 1)[0]
+    assert gateway.get("/_auth", headers={"Cookie": cookie}).status_code == 204

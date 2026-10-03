@@ -56,6 +56,15 @@ with httpx.Client(base_url=base, timeout=10) as client:
     )
     assert client.post("/logout", headers=headers).status_code == 303
     assert client.get("/api/requirements", headers=headers).status_code == 401
+    login = client.post(
+        "/login",
+        data={"username": auth[0], "password": auth[1]},
+        headers={"Accept": "application/json"},
+    )
+    assert login.status_code == 200
+    assert login.json() == {"status": "authenticated"}
+    headers = {"Cookie": login.headers["set-cookie"].split(";", 1)[0]}
+    assert client.get("/api/health", headers=headers).status_code == 200
 print(
     "Demo health, unauthenticated rejection, wrong password and authenticated access passed"
 )

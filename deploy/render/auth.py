@@ -22,11 +22,35 @@ input,button{box-sizing:border-box;width:100%;padding:12px;margin:8px 0 18px;
 font:inherit;border:1px solid #ccd8d0;border-radius:8px}button{background:#41765a;
 color:white;cursor:pointer}p{line-height:1.6;color:#65786d}.error{color:#a52e2e}</style>
 <main><h1>ReqGuard</h1><p>需求质量评估与复盘工作台</p>__ERROR__
-<form method="post" action="/login"><label>账号<input name="username"
+<p id="login-error" class="error" role="alert" hidden></p>
+<form id="login-form" method="post" action="/login"><label>账号<input name="username"
 autocomplete="username" required maxlength="40"></label><label>密码
 <input name="password" type="password" autocomplete="current-password" required
 maxlength="256"></label><button type="submit">登录工作台</button></form>
-<p>个人演示环境。数据会随免费实例休眠或重启清空。</p></main></html>"""
+<p>个人演示环境。数据会随免费实例休眠或重启清空。</p></main>
+<script>
+const form=document.getElementById('login-form');
+form.addEventListener('submit',async(event)=>{
+  event.preventDefault();
+  const button=form.querySelector('button');
+  const error=document.getElementById('login-error');
+  button.disabled=true; button.textContent='正在登录…'; error.hidden=true;
+  try {
+    const response=await fetch('/login',{
+      method:'POST',credentials:'same-origin',headers:{Accept:'application/json'},
+      body:new URLSearchParams(new FormData(form))
+    });
+    if(!response.ok) throw new Error(response.status===401?'账号或密码不正确。':
+      response.status===429?'尝试过于频繁，请稍后重试。':'登录请求失败，请刷新后重试。');
+    const check=await fetch('/api/health',{credentials:'same-origin',cache:'no-store'});
+    if(!check.ok) throw new Error('浏览器未保留登录会话，请允许本站Cookie后重试。');
+    window.location.replace('/');
+  } catch(err) {
+    error.textContent=err instanceof Error?err.message:'登录失败，请重试。'; error.hidden=false;
+    button.disabled=false; button.textContent='登录工作台';
+  }
+});
+</script></html>"""
 
 
 class Sessions:
@@ -148,6 +172,16 @@ class Handler(BaseHTTPRequestHandler):
             self.reply(401, body, {"Content-Type": "text/html; charset=utf-8"})
             return
         token = self.server.sessions.issue()
+        if "application/json" in self.headers.get("Accept", ""):
+            self.reply(
+                200,
+                b'{"status":"authenticated"}',
+                {
+                    "Content-Type": "application/json",
+                    "Set-Cookie": f"{COOKIE}={token}; Path=/; Max-Age={TTL}; HttpOnly; Secure; SameSite=Strict",
+                },
+            )
+            return
         self.reply(
             303,
             headers={

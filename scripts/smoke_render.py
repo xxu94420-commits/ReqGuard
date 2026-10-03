@@ -23,6 +23,8 @@ with httpx.Client(base_url=base, timeout=10) as client:
     login_page = client.get("/login")
     assert login_page.status_code == 200
     assert "www-authenticate" not in login_page.headers
+    for _ in range(10):
+        assert client.get("/login").status_code == 200
     assert client.get("/_auth").status_code == 404
     for path in ["/api/health", "/api/requirements", "/api/benchmark"]:
         assert client.get(path).status_code == 401, path
@@ -65,6 +67,16 @@ with httpx.Client(base_url=base, timeout=10) as client:
     assert login.json() == {"status": "authenticated"}
     headers = {"Cookie": login.headers["set-cookie"].split(";", 1)[0]}
     assert client.get("/api/health", headers=headers).status_code == 200
+    attempts = [
+        client.post(
+            "/login", data={"username": auth[0], "password": "wrong"}
+        ).status_code
+        for _ in range(10)
+    ]
+    assert 429 in attempts, "Password attempts must remain rate limited"
+    assert client.get("/login").status_code == 200, (
+        "Form must remain readable after rate limiting"
+    )
 print(
     "Demo health, unauthenticated rejection, wrong password and authenticated access passed"
 )

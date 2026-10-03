@@ -7,3 +7,5 @@ Requirement 的元数据与原文在创建后保留；RequirementVersion 仅追�
 版本链：Requirement → Version → Evaluation → Clarification/Suggestion → 新 Version → Acceptance/Test suggestions → DevelopmentTask → DeliveryEvidence → Feedback → Retrospective。
 
 本地默认 H2 仅用于开发及集成测试，部署使用 PostgreSQL 和 Flyway；不以 H2 作为生产部署数据库。无身份认证的 MVP 只绑定本机，不适合直接公开。
+
+Render免费演示采用单容器：Nginx公开入口 → 独立会话认证进程 → Java/Python回环服务。登录密码仅传给认证进程，LLM密钥仅传给Python进程；浏览器不获得供应商密钥。演示使用临时H2，不用于生产持久化。详细部署与认证边界见[Render指南](render-deployment.md)。

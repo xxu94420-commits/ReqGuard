@@ -39,3 +39,7 @@ docker run --rm -p 127.0.0.1:10000:10000 -e DEMO_USERNAME=reqguard -e DEMO_PASSW
 ## 登录排障
 
 原生HTTP Basic Auth在部分内置/自动化浏览器中无法弹出认证框，可能出现ERR_INVALID_AUTH_CREDENTIALS，即使普通浏览器可用。网页登录表单解决这一入口兼容问题，沿用DEMO_USERNAME/DEMO_PASSWORD，不更换密码也不开放匿名API。共享账号仍是演示用途，不能替代生产用户管理。
+
+网页登录采用JSON提交，服务器设置安全Cookie后，页面检查`/api/health`再进入工作台。Nginx关闭绝对重定向，避免TLS代理后的跳转带上容器HTTP端口。密码提交按IP限制为每分钟5次、突发5次；GET登录页面不计入此额度。显示429时停止重复提交，等待约一分钟后重试；持续失败时核对Render中的账号与密码配置，不要把凭据发到聊天。
+
+2026-10-04已在[公网演示](https://reqguard-demo.onrender.com/)验证网页登录和真实AI调用，详情见[验证记录](verification.md)。这不改变免费实例数据可能丢失及共享账号的限制。

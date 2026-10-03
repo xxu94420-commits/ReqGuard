@@ -1,6 +1,6 @@
 # 验证记录
 
-日期：2026-10-03。Windows本地，Java17.0.16、Python3.12、Node24。完整测试和构建结果将在交付前更新；Docker本机未安装，由仓库CI实际验证。
+日期：2026-10-03。Windows本地，Java17.0.16、Python3.12、Node24。Docker本机未安装，由仓库CI实际验证。
 
 本地已验证：
 
@@ -14,8 +14,16 @@
 
 本机未安装Docker。首次[GitHub Actions四条流水线](https://github.com/xxu94420-commits/ReqGuard/actions/runs/37035158247)全部成功：Python、Java、前端、Docker。Docker实际构建并启动四服务，PostgreSQL上的Flyway迁移及smoke链路通过；不是仅检查配置文件。最后追加两项回归测试与跨平台换行一致性修复，再由最终提交CI验证。
 
-未调用真实LLM供应商，不报告其准确率。Python TestClient有1条anyio弃用警告，不影响测试结果。评测文件固定LF换行，数据SHA256在Windows与Linux可比较。
+初始Rule-only阶段未调用真实LLM；后续连接验证见下文，不报告LLM准确率。Python TestClient有1条anyio弃用警告，不影响测试结果。评测文件固定LF换行，数据SHA256在Windows与Linux可比较。
 
 ## 真实AI接入回归（2026-10-03）
 
 Python13项测试通过，ruff格式与检查通过。真实Groq模型openai/gpt-oss-20b返回结果经Schema与原文证据验证，Java保存评估历史；前端显示llm-enhanced、semantic-v2及3078ms。真实检查仅使用内置虚构需求，不将连接成功等同准确率。
+
+## 公网登录与AI回归（2026-10-04）
+
+提交`9f2493d528f59d2bfc014a6d4ca45f14776036a1`的[五条CI流水线](https://github.com/xxu94420-commits/ReqGuard/actions/runs/37138397547)全部成功。当前Python17项、Java5项、前端2项测试通过，格式检查及构建通过。Render容器验证匿名跳转、Cookie、跨站拒绝、退出撤销、JSON登录响应、POST限流以及连续读取登录页面不受密码尝试限流影响。
+
+在真实Render公网服务通过网页会话进入工作台，创建虚构报表权限需求并评估。页面显示`llm-enhanced`、`openai/gpt-oss-20b`、`semantic-v2`及2484ms；证据页包含LLM来源的冲突判断及原文引用，版本页保留v1原始描述。截图见`screenshots/public-ai.png`。本次公网检查覆盖登录、创建、评估、证据与版本查看；完整生命周期另由上述本地smoke及CI验证。
+
+没有进行独立人工LLM准确率评测。免费实例的数据仅在当前实例生命周期内保存，连接成功不代表生产可用性或因果分析结论。

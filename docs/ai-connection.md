@@ -32,3 +32,5 @@ Groq上述模型使用 `LLM_RESPONSE_FORMAT=json_schema`。严格Schema内联引
 密钥可以写成 `LLM_API_KEY=完整密钥` 或 `LLM_API_KEY='完整密钥'`，不要使用截图中带省略号的掩码。修改后重启AI服务。
 
 启动三个服务后可运行 `python scripts/smoke_ai.py`，用虚构需求验证Java→AI→供应商→评估历史链路。会创建演示记录并产生一次真实请求，不在CI自动运行。
+
+2026-10-04公网Render验证同一模型成功，响应2484ms，实际模式`llm-enhanced`，原文版本与评估证据可在工作台查看。单次响应时间不代表性能基准，未评测LLM准确率。

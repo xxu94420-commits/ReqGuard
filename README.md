@@ -138,7 +138,7 @@ pnpm build
 
 其他截图位于 [docs/screenshots](docs/screenshots/README.md)；验证记录见 [docs/verification.md](docs/verification.md)。GitHub Actions 分别验证 Python、Java、前端及 Docker/PostgreSQL 真实链路。
 
-本地回归：Python 16项、Java 5项、前端2项测试通过，格式检查与生产构建通过；首次CI四条流水线全部通过，包括实际容器构建、健康检查、PostgreSQL迁移和端到端smoke。
+最新代码回归：Python 17项、Java 5项、前端2项测试通过；[五条CI流水线](https://github.com/xxu94420-commits/ReqGuard/actions/runs/37138397547)全部通过，包含Python、Java、前端、Docker及Render演示容器。完整记录见[验证记录](docs/verification.md)。
 
 ## 项目结构
 
@@ -157,8 +157,14 @@ compose.yaml     PostgreSQL + AI + Java + Web
 
 `GET /api/integrations/devflow/requirements/{id}?version=2` 输出质量特征；`POST /api/requirements/{id}/delivery` 接收交付特征；见 [交换模型与示例](docs/devflow-integration.md)。至少10条独立需求才计算 Pearson，零方差则显示不可计算；样本不足明确提示。相关性不代表因果，团队、复杂度等混杂变量尚未控制。当前实现协议接口，不会主动修改 DevFlow 或 GitHub。
 
-MVP 未实现登录、权限隔离、业务级删除或自动 GitHub 证据验证，仅适合本机演示；默认只暴露127.0.0.1。规则依赖中文线索，无法覆盖所有语义冲突，置信度是设计值而非概率校准。规则模式不生成已确认的具体业务指标。LLM处理可能将需求发送给配置的供应商，勿提交敏感需求。详见 [隐私与局限](docs/privacy-and-limitations.md)。
+本地Compose默认只暴露127.0.0.1，不带身份认证。Render演示版提供共享账号网页登录和安全会话，但未实现多用户权限隔离、业务级删除或自动GitHub证据验证。规则依赖中文线索，无法覆盖所有语义冲突，置信度是设计值而非概率校准。规则模式不生成已确认的具体业务指标。LLM处理可能将需求发送给配置的供应商，勿提交敏感需求。详见 [隐私与局限](docs/privacy-and-limitations.md)。
 
 下一步：独立双人标注与分歧仲裁；按句子绑定证据；增加约束区间冲突；前端浏览器回归；租户认证与细粒度权限；只读交付证据校验与更大规模外部评测。版本记录见 [CHANGELOG](CHANGELOG.md)。
 
 公网演示：参见[Render免费部署指南](docs/render-deployment.md)。根目录`render.yaml`提供单容器Free方案、HTTPS入口后的密码保护和内部服务隔离。免费演示H2数据会随休眠/重启丢失，请勿用于生产数据。
+
+### 公网验证（2026-10-04）
+
+[ReqGuard演示入口](https://reqguard-demo.onrender.com/)使用共享账号认证；密码由部署者在Render环境变量中查看，不公开发布。已用虚构需求完成真实Groq评估：实际模式`llm-enhanced`，模型`openai/gpt-oss-20b`，Prompt `semantic-v2`，响应2484ms；核对了原始版本及规则/LLM证据。这是一次连接验证，不是准确率评测或响应时间保证。
+
+![公网真实AI评估](docs/screenshots/public-ai.png)

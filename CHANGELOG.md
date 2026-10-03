@@ -1,7 +1,8 @@
 # Changelog
 
-## 未发布 — 真实AI接入
+## 未发布 — 真实AI与公网演示准备
 
+- Render单容器免费演示Blueprint、密码入口、内部服务隔离、512MiB容器回归及部署指南。
 - 本地dotenv与部署环境优先级、安全错误码、真实连接检查脚本。
 - semantic-v2及严格JSON Schema，维度枚举与原文证据校验。
 - Groq真实请求及Java评估历史链路通过；Python13项回归通过。

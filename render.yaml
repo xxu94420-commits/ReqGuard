@@ -1,0 +1,23 @@
+# Free, ephemeral portfolio demo. No paid resources or persistent storage.
+services:
+  - type: web
+    name: reqguard-demo
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./deploy/render/Dockerfile
+    dockerContext: .
+    healthCheckPath: /healthz
+    envVars:
+      - key: DEMO_USERNAME
+        value: reqguard
+      - key: DEMO_PASSWORD
+        generateValue: true
+      - key: LLM_API_KEY
+        sync: false
+      - key: LLM_BASE_URL
+        value: https://api.groq.com/openai/v1
+      - key: LLM_MODEL
+        value: openai/gpt-oss-20b
+      - key: LLM_RESPONSE_FORMAT
+        value: json_schema

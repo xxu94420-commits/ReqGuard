@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import os
 
 import httpx
 
@@ -20,7 +21,10 @@ def request(client, method, path, body=None, expected=200):
     return response.json()
 
 
-with httpx.Client(base_url=args.base_url, timeout=40) as client:
+auth = None
+if os.environ.get("DEMO_PASSWORD"):
+    auth = (os.environ.get("DEMO_USERNAME", "reqguard"), os.environ["DEMO_PASSWORD"])
+with httpx.Client(base_url=args.base_url, timeout=40, auth=auth) as client:
     request(client, "GET", "/health")
     requirement = request(
         client,

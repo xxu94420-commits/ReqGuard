@@ -11,7 +11,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install -e './ai-service[test]'
-      - run: ruff check ai-service scripts && ruff format --check ai-service scripts
+      - run: ruff check ai-service scripts deploy/render/start.py && ruff format --check ai-service scripts deploy/render/start.py
       - run: cd ai-service && pytest -q
       - run: python scripts/evaluate.py
       - uses: actions/upload-artifact@v4
@@ -54,3 +54,28 @@ jobs:
         run: docker compose logs --no-color
       - if: always()
         run: docker compose down -v
+  render-demo:
+    runs-on: ubuntu-latest
+    env:
+      DEMO_USERNAME: reqguard
+      DEMO_PASSWORD: ci-only-disposable-demo-password
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install httpx==0.28.1
+      - run: docker build -f deploy/render/Dockerfile -t reqguard-render .
+      - name: Missing login secret fails closed
+        run: |
+          if docker run --rm reqguard-render; then
+            echo "Container must reject missing credentials"
+            exit 1
+          fi
+      - run: docker run -d --name reqguard-demo --memory=512m -p 127.0.0.1:10000:10000 -e DEMO_USERNAME -e DEMO_PASSWORD reqguard-render
+      - run: python scripts/smoke_render.py
+      - run: python scripts/smoke.py --base-url http://127.0.0.1:10000
+      - if: always()
+        run: docker logs reqguard-demo
+      - if: always()
+        run: docker rm -f reqguard-demo

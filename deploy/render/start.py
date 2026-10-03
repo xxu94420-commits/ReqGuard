@@ -21,19 +21,6 @@ def configure(env):
         or "\r" in password
     ):
         raise ValueError("Set DEMO_USERNAME and DEMO_PASSWORD (at least 16 characters)")
-    password_hash = (
-        subprocess.run(
-            ["openssl", "passwd", "-6", "-stdin"],
-            input=password.encode(),
-            capture_output=True,
-            check=True,
-        )
-        .stdout.decode()
-        .strip()
-    )
-    auth = Path("/tmp/reqguard.htpasswd")
-    auth.write_text(f"{username}:{password_hash}\n", encoding="utf-8")
-    auth.chmod(0o600)
     config = Path("/srv/deploy/nginx.conf").read_text(encoding="utf-8")
     Path("/tmp/reqguard-nginx.conf").write_text(
         config.replace("__PORT__", str(port)), encoding="utf-8"
@@ -43,6 +30,8 @@ def configure(env):
 def main():
     env = dict(os.environ)
     configure(env)
+    auth_env = dict(env)
+    auth_env.pop("LLM_API_KEY", None)
     # The child services do not need access to the browser login credential.
     env.pop("DEMO_PASSWORD", None)
     env.pop("DEMO_USERNAME", None)
@@ -63,6 +52,11 @@ def main():
     signal.signal(signal.SIGTERM, stop)
     signal.signal(signal.SIGINT, stop)
     try:
+        children.append(
+            subprocess.Popen(
+                ["/srv/venv/bin/python", "/srv/deploy/auth.py"], env=auth_env
+            )
+        )
         children.append(
             subprocess.Popen(
                 [

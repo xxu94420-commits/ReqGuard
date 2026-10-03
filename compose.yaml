@@ -20,6 +20,7 @@ services:
       LLM_API_KEY: ${LLM_API_KEY:-}
       LLM_BASE_URL: ${LLM_BASE_URL:-https://api.openai.com/v1}
       LLM_MODEL: ${LLM_MODEL:-gpt-4o-mini}
+      LLM_RESPONSE_FORMAT: ${LLM_RESPONSE_FORMAT:-json_object}
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
       interval: 5s

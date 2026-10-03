@@ -103,3 +103,45 @@ def test_provider_timeout_returns_original_rule_snapshot(monkeypatch):
     assert enhanced["quality_score"] == baseline["quality_score"]
     assert enhanced["findings"] == baseline["findings"]
     assert "provider text" not in str(enhanced)
+
+
+def test_invalid_configuration_never_sends_key(monkeypatch):
+    monkeypatch.setenv("LLM_API_KEY", "fake-test-key")
+
+    async def must_not_send(*args, **kwargs):
+        raise AssertionError("Invalid destination must not receive credentials")
+
+    monkeypatch.setattr(httpx.AsyncClient, "post", must_not_send)
+    for url in [
+        "",
+        "http://remote.example/v1",
+        "https://user:password@remote.example/v1",
+        "https://remote.example/v1?key=secret",
+        "https://[broken",
+    ]:
+        monkeypatch.setenv("LLM_BASE_URL", url)
+        result = client.post("/evaluate", json={"text": "优化", "mode": "llm-enhanced"}).json()
+        assert result["mode"] == "rule-only"
+        assert result["fallback_reason"] == "invalid_provider_configuration"
+        assert "fake-test-key" not in str(result)
+
+
+def test_http_diagnostics_do_not_expose_provider_body(monkeypatch):
+    monkeypatch.setenv("LLM_API_KEY", "fake-test-key")
+    for status, reason in [
+        (401, "provider_authentication_failed"),
+        (404, "provider_model_or_endpoint_not_found"),
+        (429, "provider_rate_or_quota_limit"),
+    ]:
+
+        async def post(self, *args, **kwargs):
+            return httpx.Response(
+                status,
+                request=httpx.Request("POST", "https://provider.test"),
+                text="sensitive-provider-body",
+            )
+
+        monkeypatch.setattr(httpx.AsyncClient, "post", post)
+        result = client.post("/evaluate", json={"text": "优化", "mode": "llm-enhanced"}).json()
+        assert result["fallback_reason"] == reason
+        assert "sensitive-provider-body" not in str(result)

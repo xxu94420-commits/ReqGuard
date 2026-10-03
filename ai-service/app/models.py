@@ -15,7 +15,22 @@ class EvaluateRequest(StrictModel):
 
 class Finding(StrictModel):
     id: str
-    dimension: str
+    dimension: Literal[
+        "background",
+        "user",
+        "goal",
+        "measurability",
+        "scope",
+        "boundary",
+        "acceptance",
+        "testability",
+        "data",
+        "interface",
+        "error",
+        "risk",
+        "priority",
+        "delivery",
+    ]
     kind: Literal["missing", "ambiguous", "conflict", "risk", "scope"]
     message: str = Field(min_length=1, max_length=1000)
     evidence: str = Field(max_length=1000)
@@ -49,7 +64,7 @@ class SemanticResult(StrictModel):
 class Evaluation(StrictModel):
     rubric_version: str = "rubric-v1"
     rule_version: str = "rules-v1"
-    prompt_version: str = "semantic-v1"
+    prompt_version: str = "semantic-v2"
     mode: str
     model: str | None = None
     latency_ms: int = 0

@@ -102,9 +102,11 @@ pnpm dev
 
 默认选择 **Rule-only**：确定性证据、加权分数、澄清问题与待填验收/测试模板。
 
-**LLM-enhanced**：在 AI 服务进程环境中配置 `LLM_API_KEY`、`LLM_BASE_URL`（含 `/v1`）、`LLM_MODEL`，页面选择增强模式。Compose 自动从 `.env` 注入。没有密钥、20秒超时、HTTP失败、无效 Schema 或证据不在原文中均降级 Rule-only。保存模型名、Prompt版本和耗时；不保存原始模型响应或密钥。语义结果不会改变规则基准分，必须人工复核。需确保供应商支持 Chat Completions JSON mode。
+**LLM-enhanced**：在 AI 服务进程环境中配置 `LLM_API_KEY`、`LLM_BASE_URL`（含 `/v1`）、`LLM_MODEL`，页面选择增强模式。Compose 自动从 `.env` 注入。没有密钥、20秒超时、HTTP失败、无效 Schema 或证据不在原文中均降级 Rule-only。保存模型名、Prompt版本和耗时；不保存原始模型响应或密钥。语义结果不会改变规则基准分，必须人工复核。需确保供应商支持 Chat Completions JSON mode或严格JSON Schema；Groq配置见接入指南。
 
 ## 验证与评测
+
+真实AI接入可在根目录`.env`填写供应商配置，AI服务会自动加载；服务端环境变量优先。运行`python scripts/check_llm.py`进行一次虚构需求连接验证，详见[真实AI接入指南](docs/ai-connection.md)。密钥不要提交Git。
 
 ```bash
 cd ai-service
@@ -136,7 +138,7 @@ pnpm build
 
 其他截图位于 [docs/screenshots](docs/screenshots/README.md)；验证记录见 [docs/verification.md](docs/verification.md)。GitHub Actions 分别验证 Python、Java、前端及 Docker/PostgreSQL 真实链路。
 
-本地回归：Python 7项、Java 5项、前端2项测试通过，格式检查与生产构建通过；首次CI四条流水线全部通过，包括实际容器构建、健康检查、PostgreSQL迁移和端到端smoke。
+本地回归：Python 13项、Java 5项、前端2项测试通过，格式检查与生产构建通过；首次CI四条流水线全部通过，包括实际容器构建、健康检查、PostgreSQL迁移和端到端smoke。
 
 ## 项目结构
 

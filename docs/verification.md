@@ -15,3 +15,7 @@
 本机未安装Docker。首次[GitHub Actions四条流水线](https://github.com/xxu94420-commits/ReqGuard/actions/runs/37035158247)全部成功：Python、Java、前端、Docker。Docker实际构建并启动四服务，PostgreSQL上的Flyway迁移及smoke链路通过；不是仅检查配置文件。最后追加两项回归测试与跨平台换行一致性修复，再由最终提交CI验证。
 
 未调用真实LLM供应商，不报告其准确率。Python TestClient有1条anyio弃用警告，不影响测试结果。评测文件固定LF换行，数据SHA256在Windows与Linux可比较。
+
+## 真实AI接入回归（2026-10-03）
+
+Python13项测试通过，ruff格式与检查通过。真实Groq模型openai/gpt-oss-20b返回结果经Schema与原文证据验证，Java保存评估历史；前端显示llm-enhanced、semantic-v2及3078ms。真实检查仅使用内置虚构需求，不将连接成功等同准确率。

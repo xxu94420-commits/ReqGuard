@@ -11,7 +11,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install -e './ai-service[test]'
-      - run: ruff check ai-service scripts deploy/render/start.py && ruff format --check ai-service scripts deploy/render/start.py
+      - run: ruff check ai-service scripts deploy/render && ruff format --check ai-service scripts deploy/render
       - run: cd ai-service && pytest -q
       - run: python scripts/evaluate.py
       - uses: actions/upload-artifact@v4

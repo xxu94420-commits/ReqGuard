@@ -21,7 +21,7 @@ COPY ai-service/app /srv/ai-service/app
 COPY dataset /srv/dataset
 COPY --from=java-build /build/target/reqguard-0.1.0.jar /srv/app.jar
 COPY --from=web-build /build/dist /srv/web
-COPY deploy/render/start.py deploy/render/nginx.conf /srv/deploy/
+COPY deploy/render/start.py deploy/render/auth.py deploy/render/nginx.conf /srv/deploy/
 RUN useradd --uid 10001 --create-home reqguard && mkdir /srv/data && chown -R reqguard:reqguard /srv/data
 USER reqguard
 ENV PORT=10000 PYTHONUNBUFFERED=1

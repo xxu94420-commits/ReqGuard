@@ -1,8 +1,8 @@
 # ReqGuard
 
-## 自动化质量保障专项
+## 自动化质量保障专项 · v0.2.0
 
-新增真实HTTP接口边界与并发版本测试、Playwright浏览器生命周期回归、Locust需求详情负载工具，新增GitHub Actions任务用于生成JUnit、浏览器trace和性能报告。运行方式、测试风险矩阵及结果解释见[质量保障专项](docs/quality-assurance.md)。仅在独立本地测试实例运行，不对公网演示压测。
+新增真实HTTP接口边界与并发版本测试、Playwright浏览器生命周期回归、Locust需求详情负载工具，新增GitHub Actions任务用于生成JUnit、浏览器trace和性能报告。运行方式、测试风险矩阵及结果解释见[质量保障专项](docs/quality-assurance.md)。14项接口测试、真实Chromium流程与性能冒烟已在[CI通过](https://github.com/xxu94420-commits/ReqGuard/actions/runs/37218238691)，JUnit、trace和压测报告已归档。仅在独立本地测试实例运行，不对公网演示压测。
 
 **面向软件需求生命周期的质量评估与复盘 Agent**
 
@@ -166,7 +166,7 @@ pnpm build
 
 其他截图位于 [docs/screenshots](docs/screenshots/README.md)；验证记录见 [docs/verification.md](docs/verification.md)。GitHub Actions 分别验证 Python、Java、前端及 Docker/PostgreSQL 真实链路。
 
-最新代码回归：Python 17项、Java 5项、前端2项测试通过；[五条CI流水线](https://github.com/xxu94420-commits/ReqGuard/actions/runs/37138397547)全部通过，包含Python、Java、前端、Docker及Render演示容器。完整记录见[验证记录](docs/verification.md)。
+最新代码回归：Python 17项、Java 5项、前端2项测试通过；[六条CI流水线](https://github.com/xxu94420-commits/ReqGuard/actions/runs/37218238691)全部通过，包含Python、Java、前端、Docker、Render演示容器及自动化质量保障专项。完整记录见[验证记录](docs/verification.md)。
 
 ## 项目结构
 

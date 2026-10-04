@@ -55,6 +55,6 @@ Linux排障路径：先看JUnit失败断言和浏览器trace，再使用 `docker
 
 此次更新提供的本地验证记录：Windows 本地 Java 17 → Python 服务 → 独立 H2 内存数据库：14 项真实 HTTP 接口测试通过，既有 Python 测试 17 项通过，QA 静态检查通过。5 用户、1 用户/秒升压、20 秒的只读详情接口冒烟共完成 416 次请求，0 次失败，近似 P95 为 6 ms；这是本机单条数据的小规模结果，不代表公网或生产性能。
 
-Playwright 浏览器流程已实现，但 Windows 沙箱阻止浏览器启动，尚未验证通过。本次上传已纳入GitHub Actions配置；浏览器与新增CI的通过状态须以实际Actions运行及归档报告为准，不能由脚本存在推断通过。
+Windows本地浏览器启动曾受沙箱限制；随后已在GitHub Actions Linux runner完成真实Chromium流程、14项接口测试及Locust性能冒烟。[此次CI](https://github.com/xxu94420-commits/ReqGuard/actions/runs/37218238691)六个任务全部成功，归档`quality-suite-evidence`包含JUnit、浏览器trace及性能报告。416次请求是前述本地实验的数据，不等同于CI请求数。
 
 本地压测原始CSV及来源说明见[压测证据](evidence/qa-2026-10-05/README.md)。

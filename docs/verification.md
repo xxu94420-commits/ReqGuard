@@ -27,3 +27,7 @@ Python13项测试通过，ruff格式与检查通过。真实Groq模型openai/gpt
 在真实Render公网服务通过网页会话进入工作台，创建虚构报表权限需求并评估。页面显示`llm-enhanced`、`openai/gpt-oss-20b`、`semantic-v2`及2484ms；证据页包含LLM来源的冲突判断及原文引用，版本页保留v1原始描述。截图见`screenshots/public-ai.png`。本次公网检查覆盖登录、创建、评估、证据与版本查看；完整生命周期另由上述本地smoke及CI验证。
 
 没有进行独立人工LLM准确率评测。免费实例的数据仅在当前实例生命周期内保存，连接成功不代表生产可用性或因果分析结论。
+
+## v0.2.0 自动化质量保障（2026-10-05）
+
+[提交6e1d844的六项CI](https://github.com/xxu94420-commits/ReqGuard/actions/runs/37218238691)全部通过，新增quality-suite完成14项接口测试、真实Chromium生命周期流程及小规模Locust冒烟，归档quality-suite-evidence。本地416请求/0失败的独立结果与CI报告分别保留，详情见[专项文档](quality-assurance.md)。本版本发布仅新增测试与文档，未改变服务业务逻辑。

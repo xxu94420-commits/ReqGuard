@@ -12,6 +12,7 @@ jobs:
           python-version: '3.12'
       - run: pip install -e './ai-service[test]'
       - run: ruff check ai-service scripts deploy/render && ruff format --check ai-service scripts deploy/render
+      - run: ruff check qa && ruff format --check qa
       - run: cd ai-service && pytest -q
       - run: python scripts/evaluate.py
       - uses: actions/upload-artifact@v4
@@ -50,6 +51,36 @@ jobs:
           python-version: '3.12'
       - run: pip install httpx==0.28.1
       - run: python scripts/smoke.py --base-url http://127.0.0.1:3000
+      - if: always()
+        run: docker compose logs --no-color
+      - if: always()
+        run: docker compose down -v
+  quality-suite:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      QA_API_URL: http://127.0.0.1:3000
+      QA_WEB_URL: http://127.0.0.1:3000
+      NO_PROXY: localhost,127.0.0.1
+      LLM_API_KEY: ''
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r qa/requirements.txt
+      - run: python -m playwright install --with-deps chromium
+      - run: docker compose up --build -d --wait --wait-timeout 180
+      - run: python -m pytest qa/test_contract.py qa/test_browser.py -q --junitxml=artifacts/local/quality-junit.xml
+      - name: Bounded local performance smoke
+        run: |
+          export QA_REQUIREMENT_ID=$(python qa/seed_performance.py)
+          python -m locust -f qa/locustfile.py --headless --host "$QA_API_URL" -u 5 -r 1 -t 20s --stop-timeout 5 --csv artifacts/local/performance --html artifacts/local/performance.html --exit-code-on-error 1
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quality-suite-evidence
+          path: artifacts/local/
       - if: always()
         run: docker compose logs --no-color
       - if: always()
